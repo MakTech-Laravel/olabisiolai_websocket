@@ -1,12 +1,12 @@
-# ZBC News Reverb Server
+#Gidira Reverb Server
 
-Dedicated [Laravel Reverb](https://laravel.com/docs/13.x/reverb) WebSocket service for the ZBC News platform. This repository runs only the Reverb process; the main ZBC News Laravel application (separate repo) dispatches broadcast events, runs queue workers, authorizes private channels, and hosts the Laravel Echo client.
+Dedicated [Laravel Reverb](https://laravel.com/docs/13.x/reverb) WebSocket service for the Gidira platform. This repository runs only the Reverb process; the main Gidira Laravel application (separate repo) dispatches broadcast events, runs queue workers, authorizes private channels, and hosts the Laravel Echo client.
 
 ## Architecture
 
 ```mermaid
 flowchart LR
-    subgraph mainApp [ZBC_News_Laravel_App]
+    subgraph mainApp [Gidira Backend]
         API[HTTP_API]
         Queue[Queue_Worker]
         Auth["/broadcasting/auth"]
@@ -27,7 +27,7 @@ flowchart LR
     Echo -->|"private channel auth"| Auth
 ```
 
-| Responsibility | This repo | Main ZBC News app |
+| Responsibility | This repo | Main Gidira app |
 |----------------|-----------|-------------------|
 | WebSocket server | Yes | No |
 | `REVERB_APP_*` credentials | Source of truth | Must match exactly |
@@ -44,7 +44,7 @@ cp .env.example .env
 php artisan key:generate
 
 # Set REVERB_APP_ID, REVERB_APP_KEY, REVERB_APP_SECRET
-# Share the same values with the main ZBC News app
+# Share the same values with the main Gidira app
 
 php artisan reverb:start --debug
 ```
@@ -69,8 +69,8 @@ docker compose up --build
 Or build and run manually:
 
 ```bash
-docker build -t zbc-reverb .
-docker run -p 8080:8080 --env-file .env zbc-reverb
+docker build -t gidira-reverb .
+docker run -p 8080:8080 --env-file .env gidira-reverb
 ```
 
 Inject environment variables at runtime; do not bake secrets into the image.
@@ -91,7 +91,7 @@ Inject environment variables at runtime; do not bake secrets into the image.
 
 Generate credentials once and store them in your secrets manager. The main app must use identical `REVERB_APP_*` values.
 
-## Main ZBC News app integration
+## Main Gidira app integration
 
 ### Server-side
 
